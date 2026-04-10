@@ -1,2 +1,4 @@
-with open("test_formatted.ws","r") as f:
-    print([c for c in f.read()])
+import os, sys
+import util, argparser
+with open("test_formatted.ws","w") as f:
+    print("")
