@@ -1,3 +1,4 @@
+"""本体(whitespace.py)にマージされる予定"""
 import os
 import os.path
 import argparse

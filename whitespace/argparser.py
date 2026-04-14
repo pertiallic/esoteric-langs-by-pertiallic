@@ -1,3 +1,4 @@
+"""@deprecated"""
 import argparse
 def argparser(arguments:list[str]) -> dict:
     parser = argparse.ArgumentParser(description= "test desc", epilog= "test epilog")

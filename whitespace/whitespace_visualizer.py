@@ -1,3 +1,4 @@
+"""@deprecated"""
 import os,sys
 import os.path
 def visualizer(raw: str) -> str:
