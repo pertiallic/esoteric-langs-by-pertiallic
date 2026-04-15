@@ -5,6 +5,11 @@
 pythonで作った難解プログラミング言語インタプリタたちです  
 ほとんど自分用です
 
-## 言語
+## 言語・使い方
 
 - [whitespace](whitespace) (未完成)
+- [brainf*ck](bf) (未完成 -> bf.py)
+
+## 技術的な話
+
+common.pyは全部共通（のはず）です
