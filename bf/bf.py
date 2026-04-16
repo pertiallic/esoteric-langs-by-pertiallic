@@ -75,7 +75,6 @@ def run(code: str) -> None:
         programPointer += 1
 def main() -> None:
     args = parse(sys.argv[1:])
-    print(args)
     code:str
     if not args["file"]:
         code = input()
@@ -91,7 +90,7 @@ def main() -> None:
     else:
         common.writeFile(args["decompress"], decompress(code))
         return
-    if not args["decompress"]:
+    if not args["compress"]:
         pass
     elif args["compress"] == " ":
         print(compress(code))
