@@ -7,6 +7,9 @@ def readFile(path: str|os.PathLike) -> str:
 def writeFile(path: str|os.PathLike, content: str) -> int:
     with open(path, "w") as f:
         return f.write(content)
+def appendFile(path: str|os.PathLike, content: str) -> int:
+    with open(path, "a") as f:
+        return f.write(content)
 def fileNameInsert(path: str, text: str) -> str:
     name: tuple = os.path.splitext(path)
     return name[0] + text + name[1]

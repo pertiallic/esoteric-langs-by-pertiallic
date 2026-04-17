@@ -25,8 +25,10 @@ def parse(arguments: list[str]) -> dict:
     parser.add_argument("file", nargs= "?", default= "", help= "指定するとそのfileの中身を実行します　指定されない or 存在しない場合はソースコードの入力が求められます")
     parser.add_argument("-d", "--decompress", nargs= "?", const= " ", default= False, help= "元のソースコードを圧縮した形で表示します　file名が指定された場合そのfileの中に書き込みます")
     parser.add_argument("-c", "--compress", nargs= "?", const= " ", default= False, help= "圧縮されたソースコードを解凍して表示します　file名が指定された場合そのfileの中に書き込みます")
+    parser.add_argument("-D", "--dump", action= "store_true", help= "実行が終了したときにメモリとポインタの位置をダンプします")
+    parser.add_argument("-S", "--stepdump", nargs= "?", const= True, default= False, help= "一ステップごとにメモリとポインタの位置をダンプします　file名が指定された場合そのfileの中に書き込みます")
     return vars(parser.parse_args(arguments))
-def run(code: str) -> None:
+def run(code: str, dump: bool, stepdump: str | bool) -> None:
     parentheses:dict[int,int] = {}
     pareStack:list[int] = []
     memory:list[int] = [0]
@@ -44,6 +46,8 @@ def run(code: str) -> None:
                 parentheses[right] = i
                 parentheses[i] = right
     while programPointer < len(code):
+        if stepdump == True: print(f"{memory} :{pointer}\n")
+        elif stepdump: common.appendFile(stepdump, f"{memory} :{pointer}\n")
         match code[programPointer]:
             case ">":
                 pointer += 1
@@ -65,7 +69,7 @@ def run(code: str) -> None:
                     inp = "\0"
                 memory[pointer] = ord(inp)
             case ".":
-                print(chr(memory[pointer]))
+                print(chr(memory[pointer]), end= "")
             case "[":
                 if not memory[pointer]:
                     programPointer = parentheses[programPointer] - 1
@@ -73,6 +77,8 @@ def run(code: str) -> None:
                 if memory[pointer]:
                     programPointer = parentheses[programPointer] - 1
         programPointer += 1
+    print()
+    if dump: print(f"{memory} :{pointer}\n")
 def main() -> None:
     args = parse(sys.argv[1:])
     code:str
@@ -98,6 +104,6 @@ def main() -> None:
     else:
         common.writeFile(args["compress"], compress(code))
         return
-    run(code)
+    run(code, args["dump"], args["stepdump"])
 if __name__ == "__main__":
     main()
