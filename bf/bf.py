@@ -76,9 +76,11 @@ def run(code: str, dump: bool, stepdump: str | bool) -> None:
             case "]":
                 if memory[pointer]:
                     programPointer = parentheses[programPointer] - 1
+            case "D":
+                if dump: print(f"{memory} :{pointer}")
         programPointer += 1
     print()
-    if dump: print(f"{memory} :{pointer}\n")
+    if dump: print(f"{memory} :{pointer}")
 def main() -> None:
     args = parse(sys.argv[1:])
     code:str
