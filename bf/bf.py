@@ -1,4 +1,4 @@
-import os, sys, argparse, re
+import os, sys, argparse, re, time
 import common
 SYMBOLS = ['+', '-', '>', '<', '[', ']', ',', '.']
 COMPRESS = ['+', '-', '>', '<']
@@ -26,7 +26,7 @@ def parse(arguments: list[str]) -> dict:
     parser.add_argument("-d", "--decompress", nargs= "?", const= " ", default= False, help= "元のソースコードを圧縮した形で表示します　file名が指定された場合そのfileの中に書き込みます")
     parser.add_argument("-c", "--compress", nargs= "?", const= " ", default= False, help= "圧縮されたソースコードを解凍して表示します　file名が指定された場合そのfileの中に書き込みます")
     parser.add_argument("-D", "--dump", action= "store_true", help= "実行が終了したときにメモリとポインタの位置をダンプします")
-    parser.add_argument("-S", "--stepdump", nargs= "?", const= True, default= False, help= "一ステップごとにメモリとポインタの位置をダンプします　file名が指定された場合そのfileの中に書き込みます")
+    parser.add_argument("-S", "--stepdump", "--debug", nargs= "?", const= True, default= False, help= "一ステップごとにメモリとポインタの位置をダンプします　file名が指定された場合そのfileの中に書き込みます")
     return vars(parser.parse_args(arguments))
 def run(code: str, dump: bool, stepdump: str | bool) -> None:
     parentheses:dict[int,int] = {}
@@ -46,7 +46,8 @@ def run(code: str, dump: bool, stepdump: str | bool) -> None:
                 parentheses[right] = i
                 parentheses[i] = right
     while programPointer < len(code):
-        if stepdump == True: print(f"{memory} :{pointer}\n")
+        if stepdump == True: 
+            (f"{memory} :{pointer}\n")
         elif stepdump: common.appendFile(stepdump, f"{memory} :{pointer}\n")
         match code[programPointer]:
             case ">":
